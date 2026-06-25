@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | APEX Fitness</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="../assets/css/apex.css">
+  <style>
+    /* Admin Specific Styles */
+    body {
+      background-color: var(--bg-main);
+    }
+    
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .admin-sidebar {
+      width: 280px;
+      background: var(--bg-darkest);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    
+    .admin-brand {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--border-color);
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    
+    .admin-nav {
+      flex-grow: 1;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+    
+    .admin-nav-item {
+      padding: 0 16px;
+      margin-bottom: 4px;
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .admin-nav-link i {
+      width: 24px;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    
+    .admin-nav-link:hover, .admin-nav-link.active {
+      color: var(--apex-gold);
+      background: rgba(242, 185, 28, 0.1);
+    }
+    
+    .admin-user {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    /* Main Content */
+    .admin-main {
+      flex-grow: 1;
+      margin-left: 280px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    
+    /* Header */
+    .admin-header {
+      height: 70px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    
+    .admin-search {
+      position: relative;
+      width: 300px;
+    }
+    
+    .admin-search input {
+      padding-left: 40px;
+      border-radius: 50px;
+      background: var(--bg-main);
+    }
+    
+    .admin-search i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    
+    .admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    
+    .icon-btn:hover {
+      color: var(--apex-gold);
+    }
+    
+    /* Content Area */
+    .admin-content {
+      padding: 30px;
+      flex-grow: 1;
+    }
+    
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .stat-card-admin {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-icon-bg {
+      position: absolute;
+      right: -10px;
+      bottom: -20px;
+      font-size: 100px;
+      color: rgba(255, 255, 255, 0.03);
+      transform: rotate(-15deg);
+    }
+
+    @media (max-width: 991.98px) {
+      .admin-sidebar {
+        transform: translateX(-100%);
+      }
+      .admin-main {
+        margin-left: 0;
+      }
+      .sidebar-open .admin-sidebar {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrapper" id="adminWrapper">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="admin-brand text-gold">APEX <span class="text-white ms-2" style="font-size: 1rem; font-family: var(--font-body); letter-spacing: 0;">ADMIN</span></a>
+      
+      <div class="admin-nav">
+        <div class="admin-nav-item">
+          <a href="index.html" class="admin-nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
+        </div>
+        
+        <div class="px-4 py-2 mt-2 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Store Management</div>
+        
+        <div class="admin-nav-item">
+          <a href="products.html" class="admin-nav-link"><i class="fas fa-dumbbell"></i> Products</a>
+        </div>
+        <div class="admin-nav-item">
+          <a href="categories.html" class="admin-nav-link"><i class="fas fa-tags"></i> Categories</a>
+        </div>
+        <div class="admin-nav-item">
+          <a href="inventory.html" class="admin-nav-link"><i class="fas fa-boxes"></i> Inventory</a>
+        </div>
+        
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Sales & Users</div>
+        
+        <div class="admin-nav-item">
+          <a href="orders.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Orders</a>
+        </div>
+        <div class="admin-nav-item">
+          <a href="customers.html" class="admin-nav-link"><i class="fas fa-users"></i> Customers</a>
+        </div>
+        <div class="admin-nav-item">
+          <a href="coupons.html" class="admin-nav-link"><i class="fas fa-ticket-alt"></i> Coupons</a>
+        </div>
+        
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">System</div>
+        
+        <div class="admin-nav-item">
+          <a href="analytics.html" class="admin-nav-link"><i class="fas fa-chart-bar"></i> Analytics</a>
+        </div>
+        <div class="admin-nav-item">
+          <a href="settings.html" class="admin-nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+        <div class="admin-nav-item mt-3">
+          <a href="../index.html" class="admin-nav-link text-white"><i class="fas fa-external-link-alt"></i> View Store</a>
+        </div>
+      </div>
+      
+      <div class="admin-user">
+        <div style="width: 40px; height: 40px; background: var(--apex-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-darkest); font-weight: 700;">
+          AD
+        </div>
+        <div>
+          <div class="text-white fw-bold" style="font-size: 14px;">Admin User</div>
+          <div class="text-muted-apex" style="font-size: 12px;">Superadmin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Header -->
+      <header class="admin-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="icon-btn d-lg-none" onclick="document.getElementById('adminWrapper').classList.toggle('sidebar-open')">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="admin-search d-none d-md-block">
+            <i class="fas fa-search"></i>
+            <input type="text" class="apex-form-control" placeholder="Search orders, products...">
+          </div>
+        </div>
+        
+        <div class="admin-header-actions">
+          <button class="icon-btn position-relative">
+            <i class="far fa-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-dark rounded-circle" style="width: 10px; height: 10px;"></span>
+          </button>
+          <button class="icon-btn">
+            <i class="far fa-envelope"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="admin-content">
+        <h1 class="page-title">DASHBOARD OVERVIEW</h1>
+        
+        <!-- Stats Row -->
+        <div class="row g-4 mb-4">
+          <div class="col-xl-3 col-md-6">
+            <div class="stat-card-admin h-100">
+              <i class="fas fa-dollar-sign stat-icon-bg"></i>
+              <p class="text-muted-apex mb-1" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Total Revenue</p>
+              <h3 class="text-white mb-2 fw-bold">$124,500.00</h3>
+              <div class="d-flex align-items-center gap-2 text-success" style="font-size: 13px; font-weight: 600;">
+                <i class="fas fa-arrow-up"></i> 12.5% vs last month
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <div class="stat-card-admin h-100">
+              <i class="fas fa-shopping-cart stat-icon-bg"></i>
+              <p class="text-muted-apex mb-1" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Total Orders</p>
+              <h3 class="text-white mb-2 fw-bold">845</h3>
+              <div class="d-flex align-items-center gap-2 text-success" style="font-size: 13px; font-weight: 600;">
+                <i class="fas fa-arrow-up"></i> 8.2% vs last month
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <div class="stat-card-admin h-100">
+              <i class="fas fa-users stat-icon-bg"></i>
+              <p class="text-muted-apex mb-1" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">New Customers</p>
+              <h3 class="text-white mb-2 fw-bold">124</h3>
+              <div class="d-flex align-items-center gap-2 text-danger" style="font-size: 13px; font-weight: 600;">
+                <i class="fas fa-arrow-down"></i> 2.1% vs last month
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6">
+            <div class="stat-card-admin h-100 border-warning">
+              <i class="fas fa-exclamation-triangle stat-icon-bg text-warning opacity-10"></i>
+              <p class="text-muted-apex mb-1" style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Low Stock Items</p>
+              <h3 class="text-warning mb-2 fw-bold">3</h3>
+              <div class="d-flex align-items-center gap-2 text-white" style="font-size: 13px;">
+                Needs immediate restock
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Recent Orders Table -->
+          <div class="col-xl-8">
+            <div class="apex-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="apex-card-title m-0">Recent Orders</h5>
+                <a href="orders.html" class="btn-apex-outline btn-apex-sm">View All</a>
+              </div>
+              <div class="table-responsive">
+                <table class="apex-table w-100">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="fw-bold text-white">#ORD-901</td>
+                      <td>Alex Mitchell</td>
+                      <td>Today, 10:45 AM</td>
+                      <td class="fw-bold">$129.99</td>
+                      <td><span class="status-badge status-pending">Processing</span></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-white">#ORD-900</td>
+                      <td>Sarah Williams</td>
+                      <td>Today, 09:15 AM</td>
+                      <td class="fw-bold">$89.99</td>
+                      <td><span class="status-badge status-pending">Processing</span></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-white">#ORD-899</td>
+                      <td>Marcus Johnson</td>
+                      <td>Yesterday</td>
+                      <td class="fw-bold">$269.97</td>
+                      <td><span class="status-badge status-shipped">Shipped</span></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-white">#ORD-898</td>
+                      <td>David Chen</td>
+                      <td>Yesterday</td>
+                      <td class="fw-bold">$54.99</td>
+                      <td><span class="status-badge status-delivered">Delivered</span></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold text-white">#ORD-897</td>
+                      <td>Elena Rossi</td>
+                      <td>Jun 22, 2026</td>
+                      <td class="fw-bold">$319.96</td>
+                      <td><span class="status-badge status-delivered">Delivered</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Products -->
+          <div class="col-xl-4">
+            <div class="apex-card h-100">
+              <h5 class="apex-card-title mb-4">Top Selling Products</h5>
+              
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-apex">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=50&h=50&fit=crop" class="rounded border border-apex" alt="Product">
+                  <div>
+                    <div class="text-white fw-bold" style="font-size: 14px;">Pro Pull-Up Bar</div>
+                    <div class="text-muted-apex" style="font-size: 12px;">245 Sales</div>
+                  </div>
+                </div>
+                <div class="text-gold fw-bold">$31,847</div>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-apex">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=50&h=50&fit=crop" class="rounded border border-apex" alt="Product">
+                  <div>
+                    <div class="text-white fw-bold" style="font-size: 14px;">Wooden Parallettes</div>
+                    <div class="text-muted-apex" style="font-size: 12px;">189 Sales</div>
+                  </div>
+                </div>
+                <div class="text-gold fw-bold">$17,008</div>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-apex">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=50&h=50&fit=crop" class="rounded border border-apex" alt="Product">
+                  <div>
+                    <div class="text-white fw-bold" style="font-size: 14px;">Freestanding Dip Bars</div>
+                    <div class="text-muted-apex" style="font-size: 12px;">156 Sales</div>
+                  </div>
+                </div>
+                <div class="text-gold fw-bold">$31,198</div>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1616803689943-5601631c7fec?w=50&h=50&fit=crop" class="rounded border border-apex" alt="Product">
+                  <div>
+                    <div class="text-white fw-bold" style="font-size: 14px;">Gymnastic Rings Pro</div>
+                    <div class="text-muted-apex" style="font-size: 12px;">210 Sales</div>
+                  </div>
+                </div>
+                <div class="text-gold fw-bold">$11,547</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

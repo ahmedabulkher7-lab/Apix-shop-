@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - APEX Fitness</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/apex.css">
+  <style>
+    .account-sidebar { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+    .account-sidebar-header { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 24px; display: flex; align-items: center; gap: 16px; }
+    .account-avatar { width: 56px; height: 56px; background: var(--apex-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 1.6rem; color: var(--bg-darkest); flex-shrink: 0; }
+    .account-name { font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 1.5px; margin-bottom: 2px; }
+    .account-email { font-size: 12px; color: var(--text-muted); }
+    .account-nav { padding: 12px 0; }
+    .account-nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--text-muted); font-size: 13px; font-weight: 500; letter-spacing: 0.5px; transition: var(--transition-fast); border-left: 3px solid transparent; text-decoration: none; }
+    .account-nav-link i { font-size: 15px; width: 18px; text-align: center; }
+    .account-nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); }
+    .account-nav-link.active { color: var(--apex-gold); background: rgba(242,185,28,0.07); border-left-color: var(--apex-gold); }
+    .account-nav-divider { height: 1px; background: var(--border-color); margin: 8px 24px; }
+    .orders-filter-bar { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 24px; margin-bottom: 24px; }
+    .order-id { font-family: var(--font-heading); font-size: 1rem; letter-spacing: 1.5px; color: var(--apex-gold); }
+    .btn-view { background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; transition: var(--transition-fast); text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-view:hover { border-color: var(--apex-gold); color: var(--apex-gold); }
+    .btn-track { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); color: #8B5CF6; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; transition: var(--transition-fast); text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-track:hover { background: rgba(139,92,246,0.2); color: #8B5CF6; }
+    .btn-reorder { background: rgba(242,185,28,0.1); border: 1px solid rgba(242,185,28,0.3); color: var(--apex-gold); border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 6px 14px; transition: var(--transition-fast); text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-reorder:hover { background: rgba(242,185,28,0.2); color: var(--apex-gold); }
+    .apex-pagination .page-link { background: var(--bg-card); border-color: var(--border-color); color: var(--text-muted); font-size: 13px; font-weight: 600; padding: 8px 14px; transition: var(--transition-fast); }
+    .apex-pagination .page-link:hover { background: var(--bg-secondary); border-color: var(--apex-gold); color: var(--apex-gold); }
+    .apex-pagination .page-item.active .page-link { background: var(--apex-gold); border-color: var(--apex-gold); color: var(--bg-darkest); font-weight: 700; }
+    .apex-pagination .page-item.disabled .page-link { background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-dark); }
+    .orders-page-hero { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 48px 0 40px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-scroll::-webkit-scrollbar { height: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    🚚 FREE SHIPPING on orders over $75 &nbsp;|&nbsp; Use code <strong>APEX10</strong> for 10% off &nbsp;|&nbsp; <a href="shop.html">Shop Now →</a>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="apex-navbar navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">APEX</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#apexNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="apexNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-1">
+          <button class="navbar-icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+          <a href="wishlist.html" class="navbar-icon-btn position-relative"><i class="fas fa-heart"></i><span class="badge">2</span></a>
+          <a href="cart.html" class="navbar-icon-btn position-relative"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></a>
+          <a href="account.html" class="navbar-icon-btn"><i class="fas fa-user"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="orders-page-hero">
+    <div class="container">
+      <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb mb-0" style="font-size:13px;">
+          <li class="breadcrumb-item"><a href="index.html" style="color:var(--text-muted);">Home</a></li>
+          <li class="breadcrumb-item"><a href="account.html" style="color:var(--text-muted);">Account</a></li>
+          <li class="breadcrumb-item active" style="color:var(--text-primary);">My Orders</li>
+        </ol>
+      </nav>
+      <h1 class="page-hero-title mb-2">MY ORDERS</h1>
+      <p class="page-hero-subtitle">Track your purchases and manage your order history</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="section-pad-sm">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Left Sidebar -->
+        <div class="col-lg-3">
+          <div class="account-sidebar">
+            <div class="account-sidebar-header">
+              <div class="account-avatar">JD</div>
+              <div>
+                <div class="account-name">JAMES DEAN</div>
+                <div class="account-email">james@example.com</div>
+                <span class="status-badge status-active mt-1 d-inline-flex" style="font-size:10px;"><i class="fas fa-circle" style="font-size:6px;"></i> Active</span>
+              </div>
+            </div>
+            <nav class="account-nav">
+              <a href="account.html" class="account-nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+              <a href="orders.html" class="account-nav-link active"><i class="fas fa-box"></i> My Orders</a>
+              <a href="wishlist.html" class="account-nav-link"><i class="fas fa-heart"></i> Wishlist</a>
+              <div class="account-nav-divider"></div>
+              <a href="account.html" class="account-nav-link"><i class="fas fa-user-edit"></i> Edit Profile</a>
+              <a href="account.html" class="account-nav-link"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+              <a href="account.html" class="account-nav-link"><i class="fas fa-credit-card"></i> Payment Methods</a>
+              <a href="account.html" class="account-nav-link"><i class="fas fa-shield-alt"></i> Security</a>
+              <div class="account-nav-divider"></div>
+              <a href="login.html" class="account-nav-link" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+            </nav>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="apex-card mt-3">
+            <div class="apex-card-header">
+              <h6 class="apex-card-title" style="font-size:0.9rem;">ORDER SUMMARY</h6>
+            </div>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size:13px;color:var(--text-muted);">Total Orders</span>
+                <span style="font-family:var(--font-heading);font-size:1.2rem;">8</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size:13px;color:var(--text-muted);">Delivered</span>
+                <span style="font-family:var(--font-heading);font-size:1.2rem;color:var(--success);">4</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size:13px;color:var(--text-muted);">In Transit</span>
+                <span style="font-family:var(--font-heading);font-size:1.2rem;color:#8B5CF6;">1</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size:13px;color:var(--text-muted);">Cancelled</span>
+                <span style="font-family:var(--font-heading);font-size:1.2rem;color:var(--danger);">1</span>
+              </div>
+              <div class="divider my-1"></div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size:13px;color:var(--text-muted);">Total Spent</span>
+                <span style="font-family:var(--font-heading);font-size:1.2rem;color:var(--apex-gold);">$1,319.88</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content -->
+        <div class="col-lg-9">
+
+          <!-- Filter Bar -->
+          <div class="orders-filter-bar">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-5">
+                <label class="apex-form-label">Search Orders</label>
+                <div class="position-relative">
+                  <input type="text" class="apex-form-control" id="orderSearch" placeholder="Order #, product name..." oninput="filterOrders()">
+                  <i class="fas fa-search position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px;pointer-events:none;"></i>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <label class="apex-form-label">Status</label>
+                <select class="apex-form-control" id="statusFilter" onchange="filterOrders()">
+                  <option value="">All Statuses</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="processing">Processing</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="apex-form-label">Date Range</label>
+                <select class="apex-form-control" id="dateFilter" onchange="filterOrders()">
+                  <option value="">All Time</option>
+                  <option value="30">Last 30 Days</option>
+                  <option value="60">Last 60 Days</option>
+                  <option value="90">Last 90 Days</option>
+                  <option value="180">Last 6 Months</option>
+                </select>
+              </div>
+              <div class="col-md-1 text-end">
+                <button class="btn-apex-outline btn-apex-sm w-100" onclick="resetFilters()" title="Reset Filters" style="justify-content:center;"><i class="fas fa-undo"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results Count + Sort -->
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+            <p style="font-size:13px;color:var(--text-muted);margin:0;">Showing <span id="orderCount" style="color:var(--text-primary);font-weight:600;">8</span> orders</p>
+            <div class="d-flex align-items-center gap-2">
+              <span style="font-size:12px;color:var(--text-muted);">Sort by:</span>
+              <select class="apex-form-control" style="width:auto;padding:6px 12px;font-size:12px;">
+                <option>Newest First</option>
+                <option>Oldest First</option>
+                <option>Highest Total</option>
+                <option>Lowest Total</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Orders Table -->
+          <div class="apex-card" style="padding:0;">
+            <div class="table-scroll">
+              <table class="apex-table" id="ordersTable">
+                <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody">
+
+                  <tr class="order-row" data-status="delivered" data-date="2026-06-20" data-id="ORD-2026-001">
+                    <td><span class="order-id">ORD-2026-001</span></td>
+                    <td><span style="font-size:13px;">Jun 20, 2026</span></td>
+                    <td><span style="font-size:13px;">2 items</span></td>
+                    <td><span style="font-weight:700;">$184.98</span></td>
+                    <td><span class="status-badge status-delivered"><i class="fas fa-check-circle" style="font-size:10px;"></i> Delivered</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="delivered" data-date="2026-06-15" data-id="ORD-2026-002">
+                    <td><span class="order-id">ORD-2026-002</span></td>
+                    <td><span style="font-size:13px;">Jun 15, 2026</span></td>
+                    <td><span style="font-size:13px;">1 item</span></td>
+                    <td><span style="font-weight:700;">$49.99</span></td>
+                    <td><span class="status-badge status-delivered"><i class="fas fa-check-circle" style="font-size:10px;"></i> Delivered</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="shipped" data-date="2026-06-10" data-id="ORD-2026-003">
+                    <td><span class="order-id">ORD-2026-003</span></td>
+                    <td><span style="font-size:13px;">Jun 10, 2026</span></td>
+                    <td><span style="font-size:13px;">3 items</span></td>
+                    <td><span style="font-weight:700;">$269.97</span></td>
+                    <td><span class="status-badge status-shipped"><i class="fas fa-shipping-fast" style="font-size:10px;"></i> Shipped</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a><a href="#" class="btn-track"><i class="fas fa-map-marker-alt me-1"></i>Track</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="processing" data-date="2026-06-05" data-id="ORD-2026-004">
+                    <td><span class="order-id">ORD-2026-004</span></td>
+                    <td><span style="font-size:13px;">Jun 5, 2026</span></td>
+                    <td><span style="font-size:13px;">1 item</span></td>
+                    <td><span style="font-weight:700;">$119.99</span></td>
+                    <td><span class="status-badge status-pending"><i class="fas fa-clock" style="font-size:10px;"></i> Processing</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="confirmed" data-date="2026-05-28" data-id="ORD-2026-005">
+                    <td><span class="order-id">ORD-2026-005</span></td>
+                    <td><span style="font-size:13px;">May 28, 2026</span></td>
+                    <td><span style="font-size:13px;">2 items</span></td>
+                    <td><span style="font-weight:700;">$94.98</span></td>
+                    <td><span class="status-badge status-confirmed"><i class="fas fa-check" style="font-size:10px;"></i> Confirmed</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="delivered" data-date="2026-05-20" data-id="ORD-2026-006">
+                    <td><span class="order-id">ORD-2026-006</span></td>
+                    <td><span style="font-size:13px;">May 20, 2026</span></td>
+                    <td><span style="font-size:13px;">1 item</span></td>
+                    <td><span style="font-weight:700;">$199.99</span></td>
+                    <td><span class="status-badge status-delivered"><i class="fas fa-check-circle" style="font-size:10px;"></i> Delivered</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a><a href="#" class="btn-reorder"><i class="fas fa-redo me-1"></i>Reorder</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="delivered" data-date="2026-05-15" data-id="ORD-2026-007">
+                    <td><span class="order-id">ORD-2026-007</span></td>
+                    <td><span style="font-size:13px;">May 15, 2026</span></td>
+                    <td><span style="font-size:13px;">4 items</span></td>
+                    <td><span style="font-weight:700;">$319.96</span></td>
+                    <td><span class="status-badge status-delivered"><i class="fas fa-check-circle" style="font-size:10px;"></i> Delivered</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                  <tr class="order-row" data-status="cancelled" data-date="2026-05-10" data-id="ORD-2026-008">
+                    <td><span class="order-id">ORD-2026-008</span></td>
+                    <td><span style="font-size:13px;">May 10, 2026</span></td>
+                    <td><span style="font-size:13px;">1 item</span></td>
+                    <td><span style="font-weight:700;color:var(--text-muted);text-decoration:line-through;">$79.99</span></td>
+                    <td><span class="status-badge status-cancelled"><i class="fas fa-times-circle" style="font-size:10px;"></i> Cancelled</span></td>
+                    <td><div class="d-flex gap-2 flex-wrap"><a href="#" class="btn-view"><i class="fas fa-eye me-1"></i>View</a></div></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <!-- Empty State -->
+            <div id="emptyState" style="display:none;text-align:center;padding:60px 24px;">
+              <i class="fas fa-box-open" style="font-size:3rem;color:var(--text-muted);margin-bottom:16px;display:block;"></i>
+              <h5 style="font-family:var(--font-heading);letter-spacing:2px;margin-bottom:8px;">NO ORDERS FOUND</h5>
+              <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;">Try adjusting your filters or search terms.</p>
+              <button class="btn-apex-outline btn-apex-sm" onclick="resetFilters()"><i class="fas fa-undo me-2"></i>Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="d-flex align-items-center justify-content-between mt-4 flex-wrap gap-3">
+            <p style="font-size:13px;color:var(--text-muted);margin:0;">Page <strong style="color:var(--text-primary);">1</strong> of <strong style="color:var(--text-primary);">1</strong></p>
+            <nav aria-label="Orders pagination">
+              <ul class="pagination apex-pagination mb-0">
+                <li class="page-item disabled"><a class="page-link" href="#"><i class="fas fa-chevron-left" style="font-size:11px;"></i></a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#"><i class="fas fa-chevron-right" style="font-size:11px;"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="apex-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <span class="footer-brand">APEX</span>
+          <p class="footer-desc">Premium calisthenics equipment engineered for athletes who push beyond boundaries. Built to last, designed to perform.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Shop</h6>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="shop.html">Pull-Up Bars</a></li>
+            <li><a href="shop.html">Parallettes</a></li>
+            <li><a href="shop.html">Rings</a></li>
+            <li><a href="shop.html">Bands</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Account</h6>
+          <ul class="footer-links">
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Info</h6>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-links">
+            <li><a href="mailto:hello@apexfitness.com">hello@apexfitness.com</a></li>
+            <li><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
+            <li>Mon-Fri, 9am-6pm EST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom mt-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6"><p class="footer-bottom-text mb-0">© 2026 APEX Fitness. All rights reserved.</p></div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <span class="footer-bottom-text">
+              <i class="fab fa-cc-visa me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-mastercard me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-paypal me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-apple-pay" style="font-size:22px;color:#A0A0A0;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+      <input type="text" class="search-overlay-input" placeholder="SEARCH PRODUCTS...">
+      <div class="mt-3 text-center">
+        <button onclick="toggleSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;"><i class="fas fa-times me-2"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleSearch() { document.getElementById('searchOverlay').classList.toggle('active'); }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.getElementById('searchOverlay').classList.remove('active'); });
+
+    function filterOrders() {
+      var search = document.getElementById('orderSearch').value.toLowerCase();
+      var status = document.getElementById('statusFilter').value.toLowerCase();
+      var dateRange = document.getElementById('dateFilter').value;
+      var rows = document.querySelectorAll('.order-row');
+      var now = new Date();
+      var visible = 0;
+      rows.forEach(function(row) {
+        var rowId = row.dataset.id.toLowerCase();
+        var rowStatus = row.dataset.status.toLowerCase();
+        var rowDate = new Date(row.dataset.date);
+        var matchSearch = !search || rowId.includes(search);
+        var matchStatus = !status || rowStatus === status;
+        var matchDate = true;
+        if (dateRange) { var diffDays = (now - rowDate) / (1000*60*60*24); matchDate = diffDays <= parseInt(dateRange); }
+        if (matchSearch && matchStatus && matchDate) { row.style.display = ''; visible++; } else { row.style.display = 'none'; }
+      });
+      document.getElementById('orderCount').textContent = visible;
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+    }
+    function resetFilters() {
+      document.getElementById('orderSearch').value = '';
+      document.getElementById('statusFilter').value = '';
+      document.getElementById('dateFilter').value = '';
+      filterOrders();
+    }
+  </script>
+</body>
+</html>

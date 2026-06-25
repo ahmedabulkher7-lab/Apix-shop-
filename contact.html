@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | APEX Fitness</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="assets/css/apex.css">
+  <style>
+    .contact-info-block {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 20px;
+    }
+    .contact-info-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(242, 185, 28, 0.1);
+      color: var(--apex-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .contact-info-text h5 {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .contact-info-text p {
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+    
+    .map-placeholder {
+      width: 100%;
+      height: 400px;
+      background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&h=600&fit=crop');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(43, 43, 43, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    🚚 FREE SHIPPING on orders over $75 &nbsp;|&nbsp; Use code <strong>APEX10</strong> for 10% off
+  </div>
+
+  <!-- Navbar -->
+  <nav class="apex-navbar navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">APEX</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#apexNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="apexNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-1">
+          <button class="navbar-icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+          <a href="wishlist.html" class="navbar-icon-btn position-relative"><i class="fas fa-heart"></i><span class="badge">2</span></a>
+          <a href="cart.html" class="navbar-icon-btn position-relative"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></a>
+          <a href="account.html" class="navbar-icon-btn"><i class="fas fa-user"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-hero py-5" style="background-image: linear-gradient(rgba(43, 43, 43, 0.9), rgba(43, 43, 43, 0.9)), url('https://images.unsplash.com/photo-1599058945522-28d584b6f4ff?w=1600&h=600&fit=crop'); background-size: cover; background-position: center;">
+    <div class="container text-center py-5">
+      <h1 class="page-hero-title text-white mb-3" style="font-size: 4rem;">CONTACT US</h1>
+      <p class="page-hero-subtitle text-gold fs-4" style="letter-spacing: 2px;">WE'RE HERE TO HELP.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="row g-5">
+        
+        <!-- Contact Info -->
+        <div class="col-lg-5">
+          <h2 class="section-title text-start mb-2 fs-2">GET IN TOUCH</h2>
+          <div class="section-divider ms-0 mb-4" style="width: 60px;"></div>
+          <p class="text-muted-apex mb-5 line-height-lg fs-6">Have a question about our equipment, need help with installation, or want to discuss a bulk order for your gym? Reach out to our team.</p>
+          
+          <div class="contact-info-block">
+            <div class="contact-info-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-info-text">
+              <h5>HEADQUARTERS</h5>
+              <p>123 Iron Forge Boulevard<br>Columbus, OH 43215<br>United States</p>
+            </div>
+          </div>
+          
+          <div class="contact-info-block">
+            <div class="contact-info-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-info-text">
+              <h5>EMAIL US</h5>
+              <p>Support: <a href="mailto:support@apexfitness.com" class="text-gold text-decoration-none">support@apexfitness.com</a><br>Sales: <a href="mailto:sales@apexfitness.com" class="text-gold text-decoration-none">sales@apexfitness.com</a></p>
+            </div>
+          </div>
+          
+          <div class="contact-info-block">
+            <div class="contact-info-icon">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="contact-info-text">
+              <h5>CALL US</h5>
+              <p>Toll Free: <a href="tel:+18005550100" class="text-white text-decoration-none">+1 (800) 555-0100</a><br>Local: <a href="tel:+16145550101" class="text-white text-decoration-none">+1 (614) 555-0101</a></p>
+            </div>
+          </div>
+          
+          <div class="contact-info-block">
+            <div class="contact-info-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="contact-info-text">
+              <h5>HOURS OF OPERATION</h5>
+              <p>Monday - Friday: 9:00 AM - 6:00 PM EST<br>Saturday & Sunday: Closed</p>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+          <div class="apex-card p-4 p-md-5">
+            <h3 class="text-white mb-4" style="font-family: var(--font-heading); font-size: 2rem; letter-spacing: 1px;">SEND A MESSAGE</h3>
+            <form id="contactForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">First Name</label>
+                  <input type="text" class="apex-form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Last Name</label>
+                  <input type="text" class="apex-form-control" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Email Address</label>
+                  <input type="email" class="apex-form-control" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Subject</label>
+                  <select class="form-select apex-form-control">
+                    <option value="general">General Inquiry</option>
+                    <option value="order">Order Status / Shipping</option>
+                    <option value="product">Product Question / Tech Support</option>
+                    <option value="wholesale">Wholesale / Gym Outfitting</option>
+                    <option value="returns">Returns / Warranty</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Message</label>
+                  <textarea class="apex-form-control" rows="5" required></textarea>
+                </div>
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn-apex-primary w-100 justify-content-center btn-lg py-3">SEND MESSAGE</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Placeholder -->
+  <section class="border-top border-bottom border-apex">
+    <div class="map-placeholder">
+      <div class="map-overlay">
+        <a href="https://maps.google.com" target="_blank" class="btn-apex-outline" style="background: rgba(43,43,43,0.8);"><i class="fas fa-map-marker-alt me-2 text-gold"></i> VIEW ON MAP</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="apex-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <span class="footer-brand">APEX</span>
+          <p class="footer-desc">Premium calisthenics equipment engineered for athletes who push beyond boundaries. Built to last, designed to perform.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <!-- Links -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Shop</h6>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="shop.html">Pull-Up Bars</a></li>
+            <li><a href="shop.html">Parallettes</a></li>
+            <li><a href="shop.html">Rings</a></li>
+            <li><a href="shop.html">Bands</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Account</h6>
+          <ul class="footer-links">
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Info</h6>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-links">
+            <li><a href="mailto:hello@apexfitness.com">hello@apexfitness.com</a></li>
+            <li><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
+            <li>Mon–Fri, 9am–6pm EST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom mt-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="footer-bottom-text mb-0">© 2026 APEX Fitness. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <span class="footer-bottom-text">
+              <i class="fab fa-cc-visa me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-mastercard me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-paypal me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-apple-pay" style="font-size:22px;color:#A0A0A0;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+      <input type="text" class="search-overlay-input" placeholder="SEARCH PRODUCTS..." autofocus>
+      <div class="mt-3 text-center">
+        <button onclick="toggleSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+          <i class="fas fa-times me-2"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSearch() {
+      document.getElementById('searchOverlay').classList.toggle('active');
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you! Your message has been sent successfully.');
+      this.reset();
+    });
+  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

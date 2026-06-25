@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management | APEX Admin</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="../assets/css/apex.css">
+  <style>
+    body { background-color: var(--bg-main); }
+    .admin-wrapper { display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 280px; background: var(--bg-darkest); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1000; transition: all 0.3s ease; }
+    .admin-brand { height: 70px; display: flex; align-items: center; padding: 0 24px; border-bottom: 1px solid var(--border-color); font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); text-decoration: none; letter-spacing: 2px; }
+    .admin-nav { flex-grow: 1; padding: 20px 0; overflow-y: auto; }
+    .admin-nav-item { padding: 0 16px; margin-bottom: 4px; }
+    .admin-nav-link { display: flex; align-items: center; padding: 12px 16px; color: var(--text-muted); text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 14px; transition: all 0.2s ease; }
+    .admin-nav-link i { width: 24px; font-size: 18px; margin-right: 10px; }
+    .admin-nav-link:hover, .admin-nav-link.active { color: var(--apex-gold); background: rgba(242, 185, 28, 0.1); }
+    .admin-user { padding: 20px 24px; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; }
+    .admin-main { flex-grow: 1; margin-left: 280px; display: flex; flex-direction: column; min-width: 0; }
+    .admin-header { height: 70px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 999; }
+    .admin-search { position: relative; width: 300px; }
+    .admin-search input { padding-left: 40px; border-radius: 50px; background: var(--bg-main); }
+    .admin-search i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .icon-btn { background: none; border: none; color: var(--text-muted); font-size: 20px; position: relative; transition: color 0.2s; }
+    .icon-btn:hover { color: var(--apex-gold); }
+    .admin-content { padding: 30px; flex-grow: 1; }
+    .page-title { font-family: var(--font-heading); font-size: 2rem; letter-spacing: 1px; margin-bottom: 0; color: var(--text-primary); }
+    
+    .stock-input { width: 80px; text-align: center; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-primary); padding: 5px; border-radius: 4px; }
+    .stock-input:focus { outline: none; border-color: var(--apex-gold); }
+    
+    @media (max-width: 991.98px) {
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-main { margin-left: 0; }
+      .sidebar-open .admin-sidebar { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrapper" id="adminWrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="admin-brand text-gold">APEX <span class="text-white ms-2" style="font-size: 1rem; font-family: var(--font-body); letter-spacing: 0;">ADMIN</span></a>
+      <div class="admin-nav">
+        <div class="admin-nav-item"><a href="index.html" class="admin-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></div>
+        <div class="px-4 py-2 mt-2 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Store Management</div>
+        <div class="admin-nav-item"><a href="products.html" class="admin-nav-link"><i class="fas fa-dumbbell"></i> Products</a></div>
+        <div class="admin-nav-item"><a href="categories.html" class="admin-nav-link"><i class="fas fa-tags"></i> Categories</a></div>
+        <div class="admin-nav-item"><a href="inventory.html" class="admin-nav-link active"><i class="fas fa-boxes"></i> Inventory</a></div>
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Sales & Users</div>
+        <div class="admin-nav-item"><a href="orders.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Orders</a></div>
+        <div class="admin-nav-item"><a href="customers.html" class="admin-nav-link"><i class="fas fa-users"></i> Customers</a></div>
+        <div class="admin-nav-item"><a href="coupons.html" class="admin-nav-link"><i class="fas fa-ticket-alt"></i> Coupons</a></div>
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">System</div>
+        <div class="admin-nav-item"><a href="analytics.html" class="admin-nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></div>
+        <div class="admin-nav-item"><a href="settings.html" class="admin-nav-link"><i class="fas fa-cog"></i> Settings</a></div>
+      </div>
+      <div class="admin-user">
+        <div style="width: 40px; height: 40px; background: var(--apex-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-darkest); font-weight: 700;">AD</div>
+        <div>
+          <div class="text-white fw-bold" style="font-size: 14px;">Admin User</div>
+          <div class="text-muted-apex" style="font-size: 12px;">Superadmin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="icon-btn d-lg-none" onclick="document.getElementById('adminWrapper').classList.toggle('sidebar-open')"><i class="fas fa-bars"></i></button>
+          <div class="admin-search d-none d-md-block">
+            <i class="fas fa-search"></i>
+            <input type="text" class="apex-form-control" placeholder="Search inventory...">
+          </div>
+        </div>
+        <div class="admin-header-actions">
+          <button class="icon-btn position-relative"><i class="far fa-bell"></i></button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+          <h1 class="page-title">INVENTORY MANAGEMENT</h1>
+          <button class="btn-apex-outline"><i class="fas fa-sync-alt me-2"></i> SYNC INVENTORY</button>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="apex-card text-center p-4">
+              <h3 class="text-white fw-bold mb-1">12</h3>
+              <p class="text-muted-apex mb-0" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Total Products</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="apex-card text-center p-4 border-warning">
+              <h3 class="text-warning fw-bold mb-1">3</h3>
+              <p class="text-muted-apex mb-0" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Low Stock Items</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="apex-card text-center p-4 border-danger">
+              <h3 class="text-danger fw-bold mb-1">1</h3>
+              <p class="text-muted-apex mb-0" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Out of Stock</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="apex-card">
+          <!-- Filters -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <select class="form-select apex-form-control">
+                <option value="">Stock Level: All</option>
+                <option value="in-stock">In Stock (> 20)</option>
+                <option value="low-stock">Low Stock (1-20)</option>
+                <option value="out-of-stock">Out of Stock (0)</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select class="form-select apex-form-control">
+                <option value="">Category: All</option>
+                <option value="pull-up">Pull-Up Bars</option>
+                <option value="parallettes">Parallettes</option>
+                <option value="rings">Gymnastic Rings</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="apex-table w-100">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>SKU</th>
+                  <th>Status</th>
+                  <th>Current Stock</th>
+                  <th>Update Stock</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=40&h=40&fit=crop" class="rounded border border-apex" alt="Img">
+                      <span class="text-white fw-bold">Pro Wall-Mount Pull-Up Bar</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">APX-PUB-001</td>
+                  <td><span class="badge bg-success text-white">In Stock</span></td>
+                  <td class="fw-bold">142</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <input type="number" class="stock-input" value="142">
+                      <button class="btn btn-sm btn-outline-secondary" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-check"></i></button>
+                    </div>
+                  </td>
+                  <td class="text-end"><button class="btn btn-sm text-muted-apex hover-gold" title="History"><i class="fas fa-history"></i></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=40&h=40&fit=crop" class="rounded border border-apex" alt="Img">
+                      <span class="text-white fw-bold">Wooden Parallettes Pro</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">APX-PAR-002</td>
+                  <td><span class="badge bg-success text-white">In Stock</span></td>
+                  <td class="fw-bold">85</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <input type="number" class="stock-input" value="85">
+                      <button class="btn btn-sm btn-outline-secondary" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-check"></i></button>
+                    </div>
+                  </td>
+                  <td class="text-end"><button class="btn btn-sm text-muted-apex hover-gold" title="History"><i class="fas fa-history"></i></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=40&h=40&fit=crop" class="rounded border border-apex" alt="Img">
+                      <span class="text-white fw-bold">Freestanding Dip Bars</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">APX-DIP-003</td>
+                  <td><span class="badge bg-warning text-dark">Low Stock</span></td>
+                  <td class="fw-bold text-warning">12</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <input type="number" class="stock-input" value="12">
+                      <button class="btn btn-sm btn-outline-secondary" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-check"></i></button>
+                    </div>
+                  </td>
+                  <td class="text-end"><button class="btn btn-sm text-muted-apex hover-gold" title="History"><i class="fas fa-history"></i></button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <img src="https://images.unsplash.com/photo-1616803689943-5601631c7fec?w=40&h=40&fit=crop" class="rounded border border-apex" alt="Img">
+                      <span class="text-white fw-bold">Gymnastic Rings Pro</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">APX-RNG-004</td>
+                  <td><span class="badge bg-danger text-white">Out of Stock</span></td>
+                  <td class="fw-bold text-danger">0</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <input type="number" class="stock-input" value="0">
+                      <button class="btn btn-sm btn-outline-secondary" style="border-color: var(--border-color); color: var(--text-muted);"><i class="fas fa-check"></i></button>
+                    </div>
+                  </td>
+                  <td class="text-end"><button class="btn btn-sm text-muted-apex hover-gold" title="History"><i class="fas fa-history"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .hover-gold:hover { color: var(--apex-gold) !important; }
+  </style>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

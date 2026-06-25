@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | APEX Fitness</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="assets/css/apex.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Navbar -->
+  <nav class="apex-navbar navbar navbar-expand-lg border-bottom border-apex">
+    <div class="container">
+      <a class="navbar-brand mx-auto" href="index.html">APEX</a>
+    </div>
+  </nav>
+
+  <!-- Register Content -->
+  <section class="flex-grow-1 d-flex align-items-center py-5" style="background-image: linear-gradient(rgba(43, 43, 43, 0.95), rgba(43, 43, 43, 0.95)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1600&h=900&fit=crop'); background-size: cover; background-position: center;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="apex-card p-4 p-md-5 shadow-lg">
+            <div class="text-center mb-4">
+              <h2 class="text-white" style="font-family: var(--font-heading); font-size: 2.5rem; letter-spacing: 1px;">CREATE ACCOUNT</h2>
+              <p class="text-muted-apex">Join the APEX athletes community.</p>
+            </div>
+            
+            <form id="registerForm">
+              <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">First Name</label>
+                  <input type="text" class="apex-form-control" required autofocus>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Last Name</label>
+                  <input type="text" class="apex-form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Email Address</label>
+                <input type="email" class="apex-form-control" required>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Password</label>
+                <input type="password" class="apex-form-control" required>
+                <div class="form-text text-muted-apex mt-1" style="font-size: 11px;">Must be at least 8 characters long.</div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label text-muted-apex" style="font-size: 12px; font-weight: 700; text-transform: uppercase;">Confirm Password</label>
+                <input type="password" class="apex-form-control" required>
+              </div>
+              
+              <div class="mb-4 form-check">
+                <input type="checkbox" class="form-check-input" id="termsAgree" required>
+                <label class="form-check-label text-muted-apex" for="termsAgree" style="font-size: 13px;">I agree to the <a href="#" class="text-gold text-decoration-none">Terms of Service</a> and <a href="#" class="text-gold text-decoration-none">Privacy Policy</a></label>
+              </div>
+              
+              <button type="submit" class="btn-apex-primary w-100 justify-content-center btn-lg py-3 mb-4">CREATE ACCOUNT</button>
+              
+              <div class="text-center">
+                <p class="text-muted-apex mb-0" style="font-size: 14px;">Already have an account? <a href="login.html" class="text-white text-decoration-none fw-bold" style="border-bottom: 1px solid var(--apex-gold);">Sign in</a></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 border-top border-apex" style="background: var(--bg-darkest);">
+    <div class="container text-center">
+      <p class="text-muted-apex mb-0" style="font-size: 12px;">© 2026 APEX Fitness. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = 'account.html';
+    });
+  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | APEX Fitness</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="assets/css/apex.css">
+  <style>
+    .account-sidebar-nav {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    
+    .account-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition-fast);
+    }
+    
+    .account-nav-link:last-child {
+      border-bottom: none;
+    }
+    
+    .account-nav-link:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .account-nav-link.active {
+      background: rgba(242, 185, 28, 0.05);
+      border-left-color: var(--apex-gold);
+      color: var(--apex-gold);
+      font-weight: 600;
+    }
+
+    .account-nav-link i {
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .stat-mini-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition-fast);
+    }
+
+    .stat-mini-card:hover {
+      border-color: var(--apex-gold);
+      transform: translateY(-2px);
+    }
+
+    .stat-mini-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(242, 185, 28, 0.1);
+      color: var(--apex-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .stat-mini-info h4 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      margin: 0 0 2px 0;
+      line-height: 1;
+    }
+
+    .stat-mini-info p {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .address-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      position: relative;
+    }
+
+    .address-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: var(--apex-gold);
+      color: var(--bg-darkest);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    🚚 FREE SHIPPING on orders over $75 &nbsp;|&nbsp; Use code <strong>APEX10</strong> for 10% off
+  </div>
+
+  <!-- Navbar -->
+  <nav class="apex-navbar navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">APEX</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#apexNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="apexNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-1">
+          <button class="navbar-icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+          <a href="wishlist.html" class="navbar-icon-btn position-relative"><i class="fas fa-heart"></i><span class="badge">2</span></a>
+          <a href="cart.html" class="navbar-icon-btn position-relative"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></a>
+          <a href="account.html" class="navbar-icon-btn active"><i class="fas fa-user"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Account Header -->
+  <section class="bg-secondary-apex border-bottom border-apex py-5">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+        <div class="d-flex align-items-center gap-4 text-center text-md-start">
+          <div style="width: 80px; height: 80px; background: var(--apex-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 2.5rem; color: var(--bg-darkest); font-weight: 700;">
+            A
+          </div>
+          <div>
+            <h1 class="mb-1" style="font-family: var(--font-heading); font-size: 2.2rem; letter-spacing: 2px;">ALEX MITCHELL</h1>
+            <p class="text-muted-apex mb-1" style="font-size: 14px;">alex.mitchell@example.com</p>
+            <p class="text-gold" style="font-size: 12px; font-weight: 600;"><i class="fas fa-medal me-1"></i> APEX Member since 2025</p>
+          </div>
+        </div>
+        <div>
+          <button class="btn-apex-outline"><i class="fas fa-pen me-2"></i> Edit Profile</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Content -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-5">
+        
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+          <div class="account-sidebar-nav sticky-top" style="top: 100px;">
+            <a href="account.html" class="account-nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="account-nav-link"><i class="fas fa-box"></i> My Orders</a>
+            <a href="wishlist.html" class="account-nav-link"><i class="fas fa-heart"></i> Wishlist</a>
+            <a href="#" class="account-nav-link"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+            <a href="#" class="account-nav-link"><i class="fas fa-cog"></i> Account Settings</a>
+            <a href="login.html" class="account-nav-link text-danger border-top border-apex"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+          
+          <!-- Quick Stats -->
+          <div class="row g-4 mb-5">
+            <div class="col-md-4">
+              <div class="stat-mini-card">
+                <div class="stat-mini-icon"><i class="fas fa-shopping-bag"></i></div>
+                <div class="stat-mini-info">
+                  <h4>8</h4>
+                  <p>Total Orders</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-mini-card">
+                <div class="stat-mini-icon"><i class="fas fa-heart"></i></div>
+                <div class="stat-mini-info">
+                  <h4>4</h4>
+                  <p>Wishlist Items</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-mini-card">
+                <div class="stat-mini-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-mini-info">
+                  <h4>350</h4>
+                  <p>Reward Points</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="apex-card mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-apex pb-3">
+              <h3 class="apex-card-title m-0">RECENT ORDERS</h3>
+              <a href="orders.html" class="text-gold" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">View All</a>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="apex-table w-100">
+                <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="fw-bold text-white">#ORD-2026-001</td>
+                    <td>Jun 20, 2026</td>
+                    <td>2 items</td>
+                    <td class="fw-bold">$184.98</td>
+                    <td><span class="status-badge status-delivered"><i class="fas fa-check-circle me-1"></i> Delivered</span></td>
+                    <td><a href="orders.html" class="btn-apex-outline btn-apex-sm">View</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold text-white">#ORD-2026-003</td>
+                    <td>Jun 10, 2026</td>
+                    <td>3 items</td>
+                    <td class="fw-bold">$269.97</td>
+                    <td><span class="status-badge status-shipped"><i class="fas fa-truck me-1"></i> Shipped</span></td>
+                    <td><a href="orders.html" class="btn-apex-outline btn-apex-sm">Track</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold text-white">#ORD-2026-004</td>
+                    <td>Jun 5, 2026</td>
+                    <td>1 item</td>
+                    <td class="fw-bold">$119.99</td>
+                    <td><span class="status-badge status-pending"><i class="fas fa-clock me-1"></i> Processing</span></td>
+                    <td><a href="orders.html" class="btn-apex-outline btn-apex-sm">View</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold text-white">#ORD-2026-005</td>
+                    <td>May 28, 2026</td>
+                    <td>2 items</td>
+                    <td class="fw-bold">$94.98</td>
+                    <td><span class="status-badge status-confirmed"><i class="fas fa-box me-1"></i> Confirmed</span></td>
+                    <td><a href="orders.html" class="btn-apex-outline btn-apex-sm">View</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Addresses & Wishlist Row -->
+          <div class="row g-4">
+            <!-- Addresses -->
+            <div class="col-md-6">
+              <div class="apex-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-apex pb-3">
+                  <h3 class="apex-card-title m-0">DEFAULT ADDRESS</h3>
+                  <a href="#" class="text-gold" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Manage</a>
+                </div>
+                
+                <div class="address-card">
+                  <span class="address-badge">Default</span>
+                  <h6 class="text-white mb-2 fw-bold">Alex Mitchell</h6>
+                  <p class="text-muted-apex mb-1 fs-6">123 Fitness Blvd, Apt 4B</p>
+                  <p class="text-muted-apex mb-1 fs-6">New York, NY 10001</p>
+                  <p class="text-muted-apex mb-3 fs-6">United States</p>
+                  <p class="text-muted-apex mb-0 fs-6"><i class="fas fa-phone me-2 text-gold"></i> +1 (555) 123-4567</p>
+                  
+                  <div class="mt-3 pt-3 border-top border-apex d-flex gap-3">
+                    <a href="#" class="text-gold text-decoration-none" style="font-size: 13px; font-weight: 600;"><i class="fas fa-pen me-1"></i> Edit</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Wishlist Preview -->
+            <div class="col-md-6">
+              <div class="apex-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-apex pb-3">
+                  <h3 class="apex-card-title m-0">MY WISHLIST</h3>
+                  <a href="wishlist.html" class="text-gold" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">View All (4)</a>
+                </div>
+                
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="product.html">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&h=100&fit=crop" class="rounded border border-apex" style="width: 75px; height: 75px; object-fit: cover; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--apex-gold)'" onmouseout="this.style.borderColor='var(--border-color)'" alt="Item">
+                  </a>
+                  <a href="product.html">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=100&h=100&fit=crop" class="rounded border border-apex" style="width: 75px; height: 75px; object-fit: cover; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--apex-gold)'" onmouseout="this.style.borderColor='var(--border-color)'" alt="Item">
+                  </a>
+                  <a href="product.html">
+                    <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=100&h=100&fit=crop" class="rounded border border-apex" style="width: 75px; height: 75px; object-fit: cover; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--apex-gold)'" onmouseout="this.style.borderColor='var(--border-color)'" alt="Item">
+                  </a>
+                  <a href="wishlist.html" class="rounded border border-apex d-flex align-items-center justify-content-center bg-secondary-apex text-gold text-decoration-none" style="width: 75px; height: 75px; font-weight: 700; font-size: 14px;">
+                    +1
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="apex-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <span class="footer-brand">APEX</span>
+          <p class="footer-desc">Premium calisthenics equipment engineered for athletes who push beyond boundaries. Built to last, designed to perform.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <!-- Links -->
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Shop</h6>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="shop.html">Pull-Up Bars</a></li>
+            <li><a href="shop.html">Parallettes</a></li>
+            <li><a href="shop.html">Rings</a></li>
+            <li><a href="shop.html">Bands</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Account</h6>
+          <ul class="footer-links">
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Info</h6>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-links">
+            <li><a href="mailto:hello@apexfitness.com">hello@apexfitness.com</a></li>
+            <li><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
+            <li>Mon–Fri, 9am–6pm EST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom mt-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="footer-bottom-text mb-0">© 2026 APEX Fitness. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <span class="footer-bottom-text">
+              <i class="fab fa-cc-visa me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-mastercard me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-paypal me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-apple-pay" style="font-size:22px;color:#A0A0A0;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+      <input type="text" class="search-overlay-input" placeholder="SEARCH PRODUCTS..." autofocus>
+      <div class="mt-3 text-center">
+        <button onclick="toggleSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+          <i class="fas fa-times me-2"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSearch() {
+      document.getElementById('searchOverlay').classList.toggle('active');
+    }
+  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - APEX Fitness</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/apex.css">
+  <style>
+    /* ── Checkout Page Styles ── */
+    .page-header {
+      background: linear-gradient(135deg, #2B2B2B 0%, #353535 100%);
+      border-bottom: 1px solid #4A4A4A;
+      padding: 48px 0 36px;
+    }
+    .page-header-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      color: #F5F1E8;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+    .breadcrumb-custom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-wrap: wrap;
+    }
+    .breadcrumb-custom li {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #A0A0A0;
+    }
+    .breadcrumb-custom li a {
+      color: #A0A0A0;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .breadcrumb-custom li a:hover { color: #F2B91C; }
+    .breadcrumb-custom li.active { color: #F2B91C; }
+    .breadcrumb-custom .sep {
+      color: #4A4A4A;
+      font-size: 0.7rem;
+    }
+
+    /* ── Section Number Badge ── */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: #F2B91C;
+      color: #2B2B2B;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #4A4A4A;
+    }
+    .section-heading h5 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      color: #F5F1E8;
+      margin: 0;
+    }
+
+    /* ── Form Controls ── */
+    .checkout-section { margin-bottom: 24px; }
+    .form-label-apex {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #A0A0A0;
+      margin-bottom: 7px;
+    }
+    .form-control-apex {
+      background: #2B2B2B;
+      border: 1px solid #4A4A4A;
+      color: #F5F1E8;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 0.92rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-control-apex:focus {
+      background: #2B2B2B;
+      border-color: #F2B91C;
+      box-shadow: 0 0 0 3px rgba(242,185,28,.12);
+      color: #F5F1E8;
+      outline: none;
+    }
+    .form-control-apex::placeholder { color: #5a5a5a; }
+    select.form-control-apex option { background: #2B2B2B; color: #F5F1E8; }
+    .form-check-input-apex {
+      width: 18px;
+      height: 18px;
+      background-color: #2B2B2B;
+      border: 2px solid #4A4A4A;
+      cursor: pointer;
+    }
+    .form-check-input-apex:checked {
+      background-color: #F2B91C;
+      border-color: #F2B91C;
+    }
+
+    /* ── Payment Options ── */
+    .payment-option {
+      background: #2B2B2B;
+      border: 2px solid #4A4A4A;
+      border-radius: 10px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+    .payment-option:hover { border-color: #F2B91C; }
+    .payment-option.selected {
+      border-color: #F2B91C;
+      background: rgba(242,185,28,.06);
+    }
+    .payment-option .payment-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #4A4A4A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color .2s;
+    }
+    .payment-option.selected .payment-radio {
+      border-color: #F2B91C;
+    }
+    .payment-option.selected .payment-radio::after {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #F2B91C;
+    }
+    .payment-option .payment-label {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #F5F1E8;
+      flex: 1;
+    }
+    .payment-option .payment-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.4rem;
+      color: #A0A0A0;
+    }
+    .card-form {
+      background: #2B2B2B;
+      border: 1px solid #4A4A4A;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .card-form.active { display: block; }
+    .card-input-row {
+      position: relative;
+    }
+    .card-icon-overlay {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #A0A0A0;
+      font-size: 1.2rem;
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ── Order Summary ── */
+    .order-summary-card {
+      background: #3D3D3D;
+      border: 1px solid #4A4A4A;
+      border-radius: 14px;
+      padding: 28px 24px;
+    }
+    .order-summary-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: #F5F1E8;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #4A4A4A;
+    }
+    .order-product-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(74,74,74,.6);
+    }
+    .order-product-row:last-child { border-bottom: none; }
+    .order-product-img {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid #4A4A4A;
+      flex-shrink: 0;
+    }
+    .order-product-info { flex: 1; }
+    .order-product-name {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #F5F1E8;
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+    .order-product-qty {
+      font-size: 0.75rem;
+      color: #A0A0A0;
+    }
+    .order-product-price {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #F2B91C;
+      white-space: nowrap;
+    }
+    .order-divider {
+      height: 1px;
+      background: #4A4A4A;
+      margin: 18px 0;
+    }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .order-row-label {
+      font-size: 0.82rem;
+      color: #A0A0A0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .order-row-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #F5F1E8;
+    }
+    .order-row-value.free { color: #4ade80; }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 0;
+      border-top: 2px solid #4A4A4A;
+      margin-top: 6px;
+    }
+    .order-total-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: #F5F1E8;
+    }
+    .order-total-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: #F2B91C;
+    }
+
+    /* ── Coupon ── */
+    .coupon-row {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .coupon-row .form-control-apex { flex: 1; }
+    .coupon-btn {
+      background: transparent;
+      border: 1px solid #F2B91C;
+      color: #F2B91C;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .coupon-btn:hover { background: #F2B91C; color: #2B2B2B; }
+
+    /* ── Place Order ── */
+    .btn-place-order {
+      background: #F2B91C;
+      color: #2B2B2B;
+      border: none;
+      border-radius: 10px;
+      padding: 17px 30px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      width: 100%;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-place-order:hover { background: #E3AA15; transform: translateY(-1px); }
+    .btn-place-order:active { transform: translateY(0); }
+    .trust-text {
+      font-size: 0.75rem;
+      color: #A0A0A0;
+      text-align: center;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .payment-icons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 1.6rem;
+      color: #A0A0A0;
+    }
+
+    /* ── Validation ── */
+    .field-error {
+      font-size: 0.75rem;
+      color: #ef4444;
+      margin-top: 5px;
+      display: none;
+    }
+    .form-control-apex.is-invalid { border-color: #ef4444; }
+
+    /* ── Toast ── */
+    .apex-toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      background: #3D3D3D;
+      border: 1px solid #4A4A4A;
+      border-left: 4px solid #F2B91C;
+      border-radius: 10px;
+      padding: 16px 22px;
+      color: #F5F1E8;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      transform: translateX(120%);
+      transition: transform .3s cubic-bezier(.175,.885,.32,1.275);
+      max-width: 320px;
+    }
+    .apex-toast.show { transform: translateX(0); }
+
+    /* ── Responsive Sticky ── */
+    @media (min-width: 992px) {
+      .order-sticky { position: sticky; top: 100px; }
+    }
+    .checkout-main { padding: 48px 0 72px; }
+
+    /* ── Apex Card override for checkout ── */
+    .checkout-card {
+      background: #3D3D3D;
+      border: 1px solid #4A4A4A;
+      border-radius: 14px;
+      padding: 28px 26px;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ ANNOUNCEMENT BAR ══════════════ -->
+<div class="announcement-bar">
+  🚚 FREE SHIPPING on orders over $75 &nbsp;|&nbsp; Use code <strong>APEX10</strong> for 10% off &nbsp;|&nbsp; <a href="shop.html">Shop Now →</a>
+</div>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="apex-navbar navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">APEX</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#apexNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="apexNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-1">
+        <button class="navbar-icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+        <a href="wishlist.html" class="navbar-icon-btn position-relative"><i class="fas fa-heart"></i><span class="badge">2</span></a>
+        <a href="cart.html" class="navbar-icon-btn position-relative"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></a>
+        <a href="account.html" class="navbar-icon-btn"><i class="fas fa-user"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ PAGE HEADER ══════════════ -->
+<section class="page-header">
+  <div class="container">
+    <h1 class="page-header-title">Checkout</h1>
+    <ol class="breadcrumb-custom">
+      <li><a href="index.html">Home</a></li>
+      <li><span class="sep"><i class="fas fa-chevron-right"></i></span></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><span class="sep"><i class="fas fa-chevron-right"></i></span></li>
+      <li class="active">Checkout</li>
+      <li><span class="sep"><i class="fas fa-chevron-right"></i></span></li>
+      <li>Confirmation</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════ CHECKOUT MAIN ══════════════ -->
+<main class="checkout-main" style="background:#2B2B2B;">
+  <div class="container">
+    <form id="checkoutForm" novalidate>
+      <div class="row g-4">
+
+        <!-- ─── LEFT COLUMN ─── -->
+        <div class="col-lg-7">
+
+          <!-- 01 CONTACT INFORMATION -->
+          <div class="checkout-card">
+            <div class="section-heading">
+              <span class="section-badge">01</span>
+              <h5>Contact Information</h5>
+            </div>
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label-apex">Email Address <span style="color:#ef4444">*</span></label>
+                <input type="email" id="contactEmail" class="form-control-apex w-100" placeholder="your@email.com" required>
+                <div class="field-error" id="contactEmailError">Please enter a valid email address.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-apex">Phone Number <span style="color:#ef4444">*</span></label>
+                <input type="tel" id="contactPhone" class="form-control-apex w-100" placeholder="+1 (555) 000-0000" required>
+                <div class="field-error" id="contactPhoneError">Please enter your phone number.</div>
+              </div>
+              <div class="col-12">
+                <div class="form-check d-flex align-items-center gap-2" style="cursor:pointer;">
+                  <input class="form-check-input form-check-input-apex" type="checkbox" id="createAccount">
+                  <label class="form-check-label" for="createAccount" style="font-size:0.85rem;color:#A0A0A0;cursor:pointer;">
+                    Create an account? <span style="color:#F2B91C;">(optional)</span> — Save your details for faster checkout next time
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 SHIPPING ADDRESS -->
+          <div class="checkout-card">
+            <div class="section-heading">
+              <span class="section-badge">02</span>
+              <h5>Shipping Address</h5>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label-apex">First Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="firstName" class="form-control-apex w-100" placeholder="John" required>
+                <div class="field-error" id="firstNameError">First name is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-apex">Last Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="lastName" class="form-control-apex w-100" placeholder="Doe" required>
+                <div class="field-error" id="lastNameError">Last name is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-apex">Email Address <span style="color:#ef4444">*</span></label>
+                <input type="email" id="shipEmail" class="form-control-apex w-100" placeholder="your@email.com" required>
+                <div class="field-error" id="shipEmailError">Valid email required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-apex">Phone Number <span style="color:#ef4444">*</span></label>
+                <input type="tel" id="shipPhone" class="form-control-apex w-100" placeholder="+1 (555) 000-0000" required>
+                <div class="field-error" id="shipPhoneError">Phone number required.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-apex">Country <span style="color:#ef4444">*</span></label>
+                <select id="country" class="form-control-apex w-100" required>
+                  <option value="" disabled selected>Select Country</option>
+                  <option>United States</option>
+                  <option>Canada</option>
+                  <option>United Kingdom</option>
+                  <option>Australia</option>
+                  <option>Germany</option>
+                  <option>France</option>
+                  <option>Netherlands</option>
+                  <option>Spain</option>
+                  <option>Italy</option>
+                  <option>Japan</option>
+                  <option>Other</option>
+                </select>
+                <div class="field-error" id="countryError">Please select a country.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-apex">City <span style="color:#ef4444">*</span></label>
+                <input type="text" id="city" class="form-control-apex w-100" placeholder="New York" required>
+                <div class="field-error" id="cityError">City is required.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-apex">State / Province <span style="color:#ef4444">*</span></label>
+                <input type="text" id="state" class="form-control-apex w-100" placeholder="NY" required>
+                <div class="field-error" id="stateError">State is required.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-apex">Address Line 1 <span style="color:#ef4444">*</span></label>
+                <input type="text" id="address1" class="form-control-apex w-100" placeholder="123 Main Street, Apt 4B" required>
+                <div class="field-error" id="address1Error">Address is required.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-apex">Address Line 2 <span style="color:#A0A0A0;font-size:0.7rem;">(optional)</span></label>
+                <input type="text" class="form-control-apex w-100" placeholder="Building, floor, suite...">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label-apex">ZIP / Postal Code <span style="color:#ef4444">*</span></label>
+                <input type="text" id="zipCode" class="form-control-apex w-100" placeholder="10001" required>
+                <div class="field-error" id="zipCodeError">ZIP code required.</div>
+              </div>
+              <div class="col-12">
+                <div class="form-check d-flex align-items-center gap-2" style="cursor:pointer; margin-top:4px;">
+                  <input class="form-check-input form-check-input-apex" type="checkbox" id="saveAddress">
+                  <label class="form-check-label" for="saveAddress" style="font-size:0.85rem;color:#A0A0A0;cursor:pointer;">
+                    Save this address to my account for future orders
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 PAYMENT METHOD -->
+          <div class="checkout-card">
+            <div class="section-heading">
+              <span class="section-badge">03</span>
+              <h5>Payment Method</h5>
+            </div>
+
+            <!-- Credit / Debit Card -->
+            <div class="payment-option selected" data-method="card" onclick="selectPayment('card')">
+              <div class="payment-radio"></div>
+              <span class="payment-label"><i class="fas fa-credit-card me-2" style="color:#F2B91C;"></i>Credit / Debit Card</span>
+              <div class="payment-icons">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+              </div>
+            </div>
+            <!-- Card Form -->
+            <div class="card-form active" id="cardForm">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label-apex">Card Number</label>
+                  <div class="card-input-row">
+                    <input type="text" id="cardNumber" class="form-control-apex w-100" placeholder="1234  5678  9012  3456" maxlength="19" style="padding-right:70px;">
+                    <div class="card-icon-overlay">
+                      <i class="fab fa-cc-visa"></i>
+                      <i class="fab fa-cc-mastercard"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label-apex">Expiry Date</label>
+                  <input type="text" id="cardExpiry" class="form-control-apex w-100" placeholder="MM / YY" maxlength="7">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label-apex">CVV / CVC</label>
+                  <input type="text" id="cardCVV" class="form-control-apex w-100" placeholder="123" maxlength="4">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label-apex">Name on Card</label>
+                  <input type="text" id="cardName" class="form-control-apex w-100" placeholder="John Doe">
+                </div>
+              </div>
+              <div class="mt-3 d-flex align-items-center gap-2" style="color:#A0A0A0; font-size:0.78rem;">
+                <i class="fas fa-lock" style="color:#4ade80;"></i>
+                Your card information is encrypted with 256-bit SSL security.
+              </div>
+            </div>
+
+            <!-- PayPal -->
+            <div class="payment-option" data-method="paypal" onclick="selectPayment('paypal')">
+              <div class="payment-radio"></div>
+              <span class="payment-label"><i class="fab fa-paypal me-2" style="color:#0070ba;"></i>PayPal</span>
+              <div class="payment-icons">
+                <i class="fab fa-paypal" style="color:#0070ba;"></i>
+              </div>
+            </div>
+            <div class="card-form" id="paypalForm">
+              <div class="d-flex align-items-center gap-3 py-2">
+                <i class="fab fa-paypal" style="font-size:2.2rem; color:#0070ba;"></i>
+                <p style="color:#A0A0A0; font-size:0.85rem; margin:0;">You will be securely redirected to PayPal to complete your payment after placing your order.</p>
+              </div>
+            </div>
+
+            <!-- Apple Pay -->
+            <div class="payment-option" data-method="applepay" onclick="selectPayment('applepay')">
+              <div class="payment-radio"></div>
+              <span class="payment-label"><i class="fab fa-apple me-2"></i>Apple Pay</span>
+              <div class="payment-icons">
+                <i class="fab fa-cc-apple-pay"></i>
+              </div>
+            </div>
+            <div class="card-form" id="applepayForm">
+              <div class="d-flex align-items-center gap-3 py-2">
+                <i class="fab fa-apple" style="font-size:2.2rem; color:#F5F1E8;"></i>
+                <p style="color:#A0A0A0; font-size:0.85rem; margin:0;">Complete your purchase with Face ID or Touch ID via Apple Pay. Fast, secure and private.</p>
+              </div>
+            </div>
+
+            <!-- Cash on Delivery -->
+            <div class="payment-option" data-method="cod" onclick="selectPayment('cod')">
+              <div class="payment-radio"></div>
+              <span class="payment-label"><i class="fas fa-money-bill-wave me-2" style="color:#4ade80;"></i>Cash on Delivery</span>
+              <div class="payment-icons">
+                <i class="fas fa-truck" style="font-size:1.1rem;"></i>
+              </div>
+            </div>
+            <div class="card-form" id="codForm">
+              <div class="d-flex align-items-center gap-3 py-2">
+                <i class="fas fa-hand-holding-usd" style="font-size:2rem; color:#4ade80;"></i>
+                <p style="color:#A0A0A0; font-size:0.85rem; margin:0;">Pay with cash when your order is delivered. Please have the exact amount ready. A $2.99 COD handling fee applies.</p>
+              </div>
+            </div>
+          </div>
+          <!-- End Payment Card -->
+
+        </div>
+        <!-- ─── END LEFT COLUMN ─── -->
+
+        <!-- ─── RIGHT COLUMN: ORDER SUMMARY ─── -->
+        <div class="col-lg-5">
+          <div class="order-sticky">
+            <div class="order-summary-card">
+              <div class="order-summary-title">
+                <i class="fas fa-receipt me-2" style="color:#F2B91C; font-size:1rem;"></i>Order Summary
+              </div>
+
+              <!-- Products -->
+              <div class="order-product-row">
+                <img class="order-product-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=120&h=120&fit=crop" alt="Pull-Up Bar">
+                <div class="order-product-info">
+                  <div class="order-product-name">Pro Wall-Mount Pull-Up Bar</div>
+                  <div class="order-product-qty">Qty: 1 &nbsp;·&nbsp; Pull-Up Bars</div>
+                </div>
+                <div class="order-product-price">$129.99</div>
+              </div>
+              <div class="order-product-row">
+                <img class="order-product-img" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=120&h=120&fit=crop" alt="Dip Bars">
+                <div class="order-product-info">
+                  <div class="order-product-name">Freestanding Dip Bars</div>
+                  <div class="order-product-qty">Qty: 1 &nbsp;·&nbsp; Dip Bars</div>
+                </div>
+                <div class="order-product-price">$199.99</div>
+              </div>
+              <div class="order-product-row">
+                <img class="order-product-img" src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=120&h=120&fit=crop" alt="Bands">
+                <div class="order-product-info">
+                  <div class="order-product-name">Elite Resistance Bands Set</div>
+                  <div class="order-product-qty">Qty: 1 &nbsp;·&nbsp; Resistance Bands</div>
+                </div>
+                <div class="order-product-price">$39.99</div>
+              </div>
+
+              <div class="order-divider"></div>
+
+              <!-- Totals -->
+              <div class="order-row">
+                <span class="order-row-label">Subtotal</span>
+                <span class="order-row-value">$369.97</span>
+              </div>
+              <div class="order-row">
+                <span class="order-row-label">Discount (APEX10)</span>
+                <span class="order-row-value" style="color:#4ade80;">−$37.00</span>
+              </div>
+              <div class="order-row">
+                <span class="order-row-label">Shipping</span>
+                <span class="order-row-value free"><i class="fas fa-check-circle me-1" style="font-size:0.75rem;"></i>FREE</span>
+              </div>
+              <div class="order-row">
+                <span class="order-row-label">Estimated Tax</span>
+                <span class="order-row-value">$23.10</span>
+              </div>
+
+              <div class="order-total-row">
+                <span class="order-total-label">Total</span>
+                <span class="order-total-value">$356.07</span>
+              </div>
+            </div>
+
+            <!-- Coupon -->
+            <div style="margin-top:18px;">
+              <div class="coupon-row">
+                <input type="text" class="form-control-apex" placeholder="Coupon code (e.g. APEX10)" id="couponInput">
+                <button type="button" class="coupon-btn" onclick="applyCoupon()">Apply</button>
+              </div>
+              <div id="couponMsg" style="font-size:0.78rem; margin-top:-6px; display:none;"></div>
+            </div>
+
+            <!-- Place Order Button -->
+            <button type="submit" class="btn-place-order mt-4" id="placeOrderBtn">
+              <i class="fas fa-lock"></i>
+              PLACE ORDER — $356.07
+            </button>
+            <div class="trust-text">
+              <i class="fas fa-shield-alt" style="color:#4ade80;"></i>
+              256-bit SSL Encryption &nbsp;·&nbsp; Secure Checkout &nbsp;·&nbsp; 30-Day Returns
+            </div>
+            <div class="payment-icons-row">
+              <i class="fab fa-cc-visa" title="Visa"></i>
+              <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+              <i class="fab fa-cc-paypal" title="PayPal"></i>
+              <i class="fab fa-cc-apple-pay" title="Apple Pay"></i>
+              <i class="fab fa-cc-amex" title="Amex"></i>
+            </div>
+          </div>
+        </div>
+        <!-- ─── END RIGHT COLUMN ─── -->
+
+      </div>
+    </form>
+  </div>
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="apex-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <span class="footer-brand">APEX</span>
+        <p class="footer-desc">Premium calisthenics equipment engineered for athletes who push beyond boundaries. Built to last, designed to perform.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="footer-heading">Shop</h6>
+        <ul class="footer-links">
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html">Pull-Up Bars</a></li>
+          <li><a href="shop.html">Parallettes</a></li>
+          <li><a href="shop.html">Rings</a></li>
+          <li><a href="shop.html">Bands</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="footer-heading">Account</h6>
+        <ul class="footer-links">
+          <li><a href="account.html">My Account</a></li>
+          <li><a href="orders.html">Orders</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="footer-heading">Info</h6>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Returns</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h6 class="footer-heading">Contact</h6>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@apexfitness.com">hello@apexfitness.com</a></li>
+          <li><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
+          <li>Mon–Fri, 9am–6pm EST</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom mt-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="footer-bottom-text mb-0">© 2026 APEX Fitness. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-md-end mt-2 mt-md-0">
+          <span class="footer-bottom-text">
+            <i class="fab fa-cc-visa me-2" style="font-size:22px;color:#A0A0A0;"></i>
+            <i class="fab fa-cc-mastercard me-2" style="font-size:22px;color:#A0A0A0;"></i>
+            <i class="fab fa-cc-paypal me-2" style="font-size:22px;color:#A0A0A0;"></i>
+            <i class="fab fa-cc-apple-pay" style="font-size:22px;color:#A0A0A0;"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ SEARCH OVERLAY ══════════════ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-overlay-box">
+    <input type="text" class="search-overlay-input" placeholder="SEARCH PRODUCTS..." autofocus>
+    <div class="mt-3 text-center">
+      <button onclick="toggleSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;">
+        <i class="fas fa-times me-2"></i> Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div class="apex-toast" id="apexToast">
+  <i class="fas fa-check-circle me-2" style="color:#4ade80;"></i>
+  <span id="toastMsg">Success!</span>
+</div>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  /* ── Search Toggle ── */
+  function toggleSearch() {
+    document.getElementById('searchOverlay').classList.toggle('active');
+  }
+
+  /* ── Toast ── */
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('apexToast');
+    const msg_el = document.getElementById('toastMsg');
+    msg_el.textContent = msg;
+    toast.style.borderLeftColor = type === 'error' ? '#ef4444' : '#F2B91C';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  /* ── Payment Method Selection ── */
+  const paymentForms = {
+    card: 'cardForm',
+    paypal: 'paypalForm',
+    applepay: 'applepayForm',
+    cod: 'codForm'
+  };
+
+  function selectPayment(method) {
+    // Remove selected from all options
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+    // Hide all forms
+    Object.values(paymentForms).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    // Activate chosen
+    const chosen = document.querySelector(`.payment-option[data-method="${method}"]`);
+    if (chosen) chosen.classList.add('selected');
+    const form = document.getElementById(paymentForms[method]);
+    if (form) form.classList.add('active');
+  }
+
+  /* ── Card Number Formatting ── */
+  const cardNumberInput = document.getElementById('cardNumber');
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').substring(0, 16);
+      this.value = v.replace(/(.{4})/g, '$1  ').trim();
+    });
+  }
+  const cardExpiryInput = document.getElementById('cardExpiry');
+  if (cardExpiryInput) {
+    cardExpiryInput.addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
+      this.value = v;
+    });
+  }
+
+  /* ── Coupon ── */
+  function applyCoupon() {
+    const code = document.getElementById('couponInput').value.trim().toUpperCase();
+    const msgEl = document.getElementById('couponMsg');
+    msgEl.style.display = 'block';
+    if (code === 'APEX10') {
+      msgEl.style.color = '#4ade80';
+      msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i> Coupon applied! 10% off your order.';
+      showToast('Coupon APEX10 applied successfully!');
+    } else if (code === '') {
+      msgEl.style.color = '#ef4444';
+      msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i> Please enter a coupon code.';
+    } else {
+      msgEl.style.color = '#ef4444';
+      msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i> Invalid coupon code. Try APEX10.';
+    }
+  }
+
+  /* ── Form Validation ── */
+  const validations = [
+    { id: 'contactEmail', errId: 'contactEmailError', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'contactPhone', errId: 'contactPhoneError', check: v => v.length >= 7 },
+    { id: 'firstName', errId: 'firstNameError', check: v => v.length >= 2 },
+    { id: 'lastName', errId: 'lastNameError', check: v => v.length >= 2 },
+    { id: 'shipEmail', errId: 'shipEmailError', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'shipPhone', errId: 'shipPhoneError', check: v => v.length >= 7 },
+    { id: 'country', errId: 'countryError', check: v => v !== '' },
+    { id: 'city', errId: 'cityError', check: v => v.length >= 2 },
+    { id: 'state', errId: 'stateError', check: v => v.length >= 1 },
+    { id: 'address1', errId: 'address1Error', check: v => v.length >= 5 },
+    { id: 'zipCode', errId: 'zipCodeError', check: v => v.length >= 4 },
+  ];
+
+  document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    validations.forEach(({ id, errId, check }) => {
+      const input = document.getElementById(id);
+      const errEl = document.getElementById(errId);
+      if (!input || !errEl) return;
+      const val = input.value.trim();
+      if (!check(val)) {
+        input.classList.add('is-invalid');
+        errEl.style.display = 'block';
+        valid = false;
+      } else {
+        input.classList.remove('is-invalid');
+        errEl.style.display = 'none';
+      }
+    });
+
+    if (valid) {
+      const btn = document.getElementById('placeOrderBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> PROCESSING...';
+      btn.disabled = true;
+      setTimeout(() => {
+        showToast('Order placed successfully! Redirecting...');
+        setTimeout(() => { window.location.href = 'orders.html'; }, 2000);
+      }, 2000);
+    } else {
+      showToast('Please fill in all required fields.', 'error');
+      // Scroll to first error
+      const firstInvalid = document.querySelector('.is-invalid');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  /* ── Clear error on input ── */
+  validations.forEach(({ id, errId }) => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('input', () => {
+        input.classList.remove('is-invalid');
+        const errEl = document.getElementById(errId);
+        if (errEl) errEl.style.display = 'none';
+      });
+    }
+  });
+</script>
+</body>
+</html>

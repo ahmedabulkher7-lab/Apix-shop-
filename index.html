@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX Fitness | Train Without Limits</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="assets/css/apex.css">
+  <style>
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <!-- <div class="announcement-bar">
+    🚚 FREE SHIPPING on orders over $75 &nbsp;|&nbsp; Use code <strong>APEX10</strong> for 10% off &nbsp;|&nbsp; <a href="shop.html">Shop Now →</a>
+  </div> -->
+
+  <!-- Navbar -->
+  <nav class="apex-navbar navbar navbar-expand-">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">APEX</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#apexNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="apexNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-1">
+          <button class="navbar-icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+          <a href="wishlist.html" class="navbar-icon-btn position-relative"><i class="fas fa-heart"></i><span class="badge">2</span></a>
+          <a href="cart.html" class="navbar-icon-btn position-relative"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></a>
+          <a href="account.html" class="navbar-icon-btn"><i class="fas fa-user"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container position-relative z-1">
+      <h1 class="hero-title animate-fadeInUp">TRAIN WITHOUT<br><span class="highlight">LIMITS</span></h1>
+      <p class="hero-description mx-auto animate-fadeInUp animate-delay-1">Premium calisthenics equipment engineered for athletes who push beyond boundaries.</p>
+      <div class="d-flex justify-content-center gap-3 animate-fadeInUp animate-delay-2">
+        <a href="shop.html" class="btn-apex-primary btn-apex-lg">Shop Now</a>
+        <a href="shop.html" class="btn-apex-outline btn-apex-lg">Explore Collection</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Categories -->
+  <section class="section-pad bg-main">
+    <div class="container reveal">
+      <div class="section-header">
+        <span class="section-tag">Explore</span>
+        <h2 class="section-title">SHOP BY CATEGORY</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <a href="shop.html" class="category-card d-block text-decoration-none">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&h=650&fit=crop" alt="Pull-Up Bars">
+            <div class="category-card-overlay">
+              <h3 class="category-card-title text-white">Pull-Up Bars</h3>
+              <span class="category-card-count">5 PRODUCTS</span>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <a href="shop.html" class="category-card d-block text-decoration-none">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=650&fit=crop" alt="Parallettes">
+            <div class="category-card-overlay">
+              <h3 class="category-card-title text-white">Parallettes</h3>
+              <span class="category-card-count">3 PRODUCTS</span>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <a href="shop.html" class="category-card d-block text-decoration-none">
+            <img src="https://images.unsplash.com/photo-1616803689943-5601631c7fec?w=500&h=650&fit=crop" alt="Gymnastic Rings">
+            <div class="category-card-overlay">
+              <h3 class="category-card-title text-white">Gymnastic Rings</h3>
+              <span class="category-card-count">2 PRODUCTS</span>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <a href="shop.html" class="category-card d-block text-decoration-none">
+            <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=500&h=650&fit=crop" alt="Resistance Bands">
+            <div class="category-card-overlay">
+              <h3 class="category-card-title text-white">Resistance Bands</h3>
+              <span class="category-card-count">4 PRODUCTS</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers -->
+  <section class="section-pad bg-secondary-apex border-apex border-top border-bottom">
+    <div class="container reveal">
+      <div class="section-header">
+        <span class="section-tag">Top Picks</span>
+        <h2 class="section-title">BEST SELLERS</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="product-card">
+            <span class="product-badge bg-apex-gold text-darkest">Best Seller</span>
+            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            <a href="product.html" class="product-card-img-wrapper d-block">
+              <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=400&fit=crop" alt="Pro Wall-Mount Pull-Up Bar">
+            </a>
+            <div class="product-card-body">
+              <div class="product-category">Pull-Up Bars</div>
+              <h4 class="product-name"><a href="product.html" class="text-white text-decoration-none">Pro Wall-Mount Pull-Up Bar</a></h4>
+              <div class="product-rating">
+                <div class="stars">★★★★☆</div>
+                <span class="rating-count">(234)</span>
+              </div>
+              <div class="product-price-wrapper">
+                <span class="product-price">$129.99</span>
+                <span class="product-price-old">$159.99</span>
+              </div>
+              <button class="btn-apex-primary w-100 justify-content-center">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+        <!-- Product 2 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="product-card">
+            <span class="product-badge badge-top">Top Rated</span>
+            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            <a href="product.html" class="product-card-img-wrapper d-block">
+              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop" alt="Wooden Parallettes Pro">
+            </a>
+            <div class="product-card-body">
+              <div class="product-category">Parallettes</div>
+              <h4 class="product-name"><a href="product.html" class="text-white text-decoration-none">Wooden Parallettes Pro</a></h4>
+              <div class="product-rating">
+                <div class="stars">★★★★★</div>
+                <span class="rating-count">(156)</span>
+              </div>
+              <div class="product-price-wrapper">
+                <span class="product-price">$89.99</span>
+              </div>
+              <button class="btn-apex-primary w-100 justify-content-center">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+        <!-- Product 3 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="product-card">
+            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            <a href="product.html" class="product-card-img-wrapper d-block">
+              <img src="https://images.unsplash.com/photo-1616803689943-5601631c7fec?w=400&h=400&fit=crop" alt="Gymnastic Rings Pro">
+            </a>
+            <div class="product-card-body">
+              <div class="product-category">Gymnastic Rings</div>
+              <h4 class="product-name"><a href="product.html" class="text-white text-decoration-none">Gymnastic Rings Pro</a></h4>
+              <div class="product-rating">
+                <div class="stars">★★★★★</div>
+                <span class="rating-count">(201)</span>
+              </div>
+              <div class="product-price-wrapper">
+                <span class="product-price">$54.99</span>
+              </div>
+              <button class="btn-apex-primary w-100 justify-content-center">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+        <!-- Product 4 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="product-card">
+            <span class="product-badge bg-apex-gold text-darkest">Best Seller</span>
+            <button class="product-wishlist-btn"><i class="far fa-heart"></i></button>
+            <a href="product.html" class="product-card-img-wrapper d-block">
+              <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=400&h=400&fit=crop" alt="Freestanding Dip Bars">
+            </a>
+            <div class="product-card-body">
+              <div class="product-category">Dip Bars</div>
+              <h4 class="product-name"><a href="product.html" class="text-white text-decoration-none">Freestanding Dip Bars</a></h4>
+              <div class="product-rating">
+                <div class="stars">★★★★★</div>
+                <span class="rating-count">(143)</span>
+              </div>
+              <div class="product-price-wrapper">
+                <span class="product-price">$199.99</span>
+              </div>
+              <button class="btn-apex-primary w-100 justify-content-center">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <a href="shop.html" class="btn-apex-outline">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="section-pad bg-main">
+    <div class="container reveal">
+      <div class="section-header">
+        <span class="section-tag">Quality</span>
+        <h2 class="section-title">WHY CHOOSE APEX</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card h-100">
+            <div class="feature-icon"><i class="fas fa-dumbbell"></i></div>
+            <h4 class="feature-title">Military-Grade Steel</h4>
+            <p class="feature-desc mb-0">Constructed with high-gauge steel designed to withstand extreme loads and lifetimes of intense use.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card h-100">
+            <div class="feature-icon"><i class="fas fa-tools"></i></div>
+            <h4 class="feature-title">Engineered Precision</h4>
+            <p class="feature-desc mb-0">Every angle, grip, and weld is meticulously engineered by professional athletes and industrial designers.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card h-100">
+            <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+            <h4 class="feature-title">Free Shipping $75+</h4>
+            <p class="feature-desc mb-0">Get fast, free shipping on all orders over $75 across the continental United States.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card h-100">
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+            <h4 class="feature-title">Lifetime Warranty</h4>
+            <p class="feature-desc mb-0">We stand behind our craftsmanship. Our core metal products are backed by a limited lifetime warranty.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built For The Dedicated -->
+  <section class="section-pad bg-secondary-apex border-apex border-top border-bottom overflow-hidden">
+    <div class="container reveal">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <h2 class="section-title text-start mb-2">BUILT FOR THE DEDICATED</h2>
+          <div class="section-divider ms-0 mb-4"></div>
+          <p class="text-muted-apex fs-5 mb-4 line-height-lg">APEX was born from a simple belief: the best athletes deserve the best equipment. Every product we create is tested by professional calisthenics athletes, built with premium materials, and designed to last a lifetime.</p>
+          <p class="text-muted-apex mb-4">We don't do shortcuts. We do strength. Our mission is to provide you with the tools you need to break past your limits and achieve peak physical performance, whether you're training in a professional gym or your own garage.</p>
+          <a href="about.html" class="btn-apex-outline mt-2">LEARN MORE</a>
+        </div>
+        <div class="col-lg-6">
+          <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&h=600&fit=crop" class="img-fluid rounded border border-apex shadow-lg" alt="Athlete training">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Testimonials -->
+  <section class="section-pad bg-main">
+    <div class="container reveal">
+      <div class="section-header">
+        <span class="section-tag">Community</span>
+        <h2 class="section-title">WHAT ATHLETES SAY</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="testimonial-card h-100">
+            <div class="stars mb-3">★★★★★</div>
+            <p class="testimonial-text">"Best pull-up bar I've ever used. Rock solid construction and the grip positions are perfect. Installed it in my garage gym and it holds up to weighted muscle-ups without a flinch."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">A</div>
+              <div>
+                <h5 class="testimonial-name">ALEX M.</h5>
+                <span class="testimonial-role">Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-card h-100">
+            <div class="stars mb-3">★★★★★</div>
+            <p class="testimonial-text">"The wooden parallettes are beautiful and incredibly sturdy. Worth every penny. The grip thickness is perfect for handstand practice and L-sits. They don't slide at all on my wooden floors."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">S</div>
+              <div>
+                <h5 class="testimonial-name">SARAH K.</h5>
+                <span class="testimonial-role">Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-card h-100">
+            <div class="stars mb-3">★★★★★</div>
+            <p class="testimonial-text">"Fast shipping, premium quality. APEX is my go-to for all calisthenics gear now. The dip bars are completely stable even with a 45lb plate attached to my belt. Incredible craftsmanship."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">M</div>
+              <div>
+                <h5 class="testimonial-name">MARCUS T.</h5>
+                <span class="testimonial-role">Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Banner -->
+  <section class="py-5" style="background-color: var(--bg-darkest);">
+    <div class="container reveal">
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Happy Athletes</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">12+</div>
+            <div class="stat-label">Premium Products</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">4.9★</div>
+            <div class="stat-label">Average Rating</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section text-center">
+    <div class="container reveal">
+      <h2 class="section-title mb-2">GET THE LATEST DEALS</h2>
+      <p class="text-muted-apex mb-4 pb-2">Subscribe to our newsletter for exclusive offers, training tips, and early access to new products.</p>
+      <form class="newsletter-form">
+        <input type="email" class="apex-form-control" placeholder="Enter your email address" required>
+        <button type="submit" class="btn-apex-primary">SUBSCRIBE</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="apex-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <span class="footer-brand">APEX</span>
+          <p class="footer-desc">Premium calisthenics equipment engineered for athletes who push beyond boundaries. Built to last, designed to perform.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Shop</h6>
+          <ul class="footer-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="shop.html">Pull-Up Bars</a></li>
+            <li><a href="shop.html">Parallettes</a></li>
+            <li><a href="shop.html">Rings</a></li>
+            <li><a href="shop.html">Bands</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Account</h6>
+          <ul class="footer-links">
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Info</h6>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h6 class="footer-heading">Contact</h6>
+          <ul class="footer-links">
+            <li><a href="mailto:hello@apexfitness.com">hello@apexfitness.com</a></li>
+            <li><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
+            <li>Mon–Fri, 9am–6pm EST</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom mt-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="footer-bottom-text mb-0">© 2026 APEX Fitness. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end mt-2 mt-md-0">
+            <span class="footer-bottom-text">
+              <i class="fab fa-cc-visa me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-mastercard me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-paypal me-2" style="font-size:22px;color:#A0A0A0;"></i>
+              <i class="fab fa-cc-apple-pay" style="font-size:22px;color:#A0A0A0;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-box">
+      <input type="text" class="search-overlay-input" placeholder="SEARCH PRODUCTS..." autofocus>
+      <div class="mt-3 text-center">
+        <button onclick="toggleSearch()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+          <i class="fas fa-times me-2"></i> Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSearch() {
+      document.getElementById('searchOverlay').classList.toggle('active');
+    }
+
+    // Scroll reveal animation
+    document.addEventListener("DOMContentLoaded", function() {
+      const reveals = document.querySelectorAll(".reveal");
+
+      const revealOnScroll = function() {
+        for (let i = 0; i < reveals.length; i++) {
+          const windowHeight = window.innerHeight;
+          const elementTop = reveals[i].getBoundingClientRect().top;
+          const elementVisible = 100;
+
+          if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+          }
+        }
+      };
+
+      window.addEventListener("scroll", revealOnScroll);
+      revealOnScroll(); // trigger once on load
+    });
+  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

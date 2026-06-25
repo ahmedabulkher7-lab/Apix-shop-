@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers | APEX Admin</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- APEX CSS -->
+  <link rel="stylesheet" href="../assets/css/apex.css">
+  <style>
+    body { background-color: var(--bg-main); }
+    .admin-wrapper { display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 280px; background: var(--bg-darkest); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1000; transition: all 0.3s ease; }
+    .admin-brand { height: 70px; display: flex; align-items: center; padding: 0 24px; border-bottom: 1px solid var(--border-color); font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); text-decoration: none; letter-spacing: 2px; }
+    .admin-nav { flex-grow: 1; padding: 20px 0; overflow-y: auto; }
+    .admin-nav-item { padding: 0 16px; margin-bottom: 4px; }
+    .admin-nav-link { display: flex; align-items: center; padding: 12px 16px; color: var(--text-muted); text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 14px; transition: all 0.2s ease; }
+    .admin-nav-link i { width: 24px; font-size: 18px; margin-right: 10px; }
+    .admin-nav-link:hover, .admin-nav-link.active { color: var(--apex-gold); background: rgba(242, 185, 28, 0.1); }
+    .admin-user { padding: 20px 24px; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; }
+    .admin-main { flex-grow: 1; margin-left: 280px; display: flex; flex-direction: column; min-width: 0; }
+    .admin-header { height: 70px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 999; }
+    .admin-search { position: relative; width: 300px; }
+    .admin-search input { padding-left: 40px; border-radius: 50px; background: var(--bg-main); }
+    .admin-search i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .icon-btn { background: none; border: none; color: var(--text-muted); font-size: 20px; position: relative; transition: color 0.2s; }
+    .icon-btn:hover { color: var(--apex-gold); }
+    .admin-content { padding: 30px; flex-grow: 1; }
+    .page-title { font-family: var(--font-heading); font-size: 2rem; letter-spacing: 1px; margin-bottom: 0; color: var(--text-primary); }
+    
+    .customer-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--apex-gold); color: var(--bg-darkest); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+    
+    @media (max-width: 991.98px) {
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-main { margin-left: 0; }
+      .sidebar-open .admin-sidebar { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrapper" id="adminWrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="admin-brand text-gold">APEX <span class="text-white ms-2" style="font-size: 1rem; font-family: var(--font-body); letter-spacing: 0;">ADMIN</span></a>
+      <div class="admin-nav">
+        <div class="admin-nav-item"><a href="index.html" class="admin-nav-link"><i class="fas fa-th-large"></i> Dashboard</a></div>
+        <div class="px-4 py-2 mt-2 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Store Management</div>
+        <div class="admin-nav-item"><a href="products.html" class="admin-nav-link"><i class="fas fa-dumbbell"></i> Products</a></div>
+        <div class="admin-nav-item"><a href="categories.html" class="admin-nav-link"><i class="fas fa-tags"></i> Categories</a></div>
+        <div class="admin-nav-item"><a href="inventory.html" class="admin-nav-link"><i class="fas fa-boxes"></i> Inventory</a></div>
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Sales & Users</div>
+        <div class="admin-nav-item"><a href="orders.html" class="admin-nav-link"><i class="fas fa-shopping-cart"></i> Orders</a></div>
+        <div class="admin-nav-item"><a href="customers.html" class="admin-nav-link active"><i class="fas fa-users"></i> Customers</a></div>
+        <div class="admin-nav-item"><a href="coupons.html" class="admin-nav-link"><i class="fas fa-ticket-alt"></i> Coupons</a></div>
+        <div class="px-4 py-2 mt-3 mb-1 text-muted-apex" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">System</div>
+        <div class="admin-nav-item"><a href="analytics.html" class="admin-nav-link"><i class="fas fa-chart-bar"></i> Analytics</a></div>
+        <div class="admin-nav-item"><a href="settings.html" class="admin-nav-link"><i class="fas fa-cog"></i> Settings</a></div>
+      </div>
+      <div class="admin-user">
+        <div style="width: 40px; height: 40px; background: var(--apex-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-darkest); font-weight: 700;">AD</div>
+        <div>
+          <div class="text-white fw-bold" style="font-size: 14px;">Admin User</div>
+          <div class="text-muted-apex" style="font-size: 12px;">Superadmin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="icon-btn d-lg-none" onclick="document.getElementById('adminWrapper').classList.toggle('sidebar-open')"><i class="fas fa-bars"></i></button>
+          <div class="admin-search d-none d-md-block">
+            <i class="fas fa-search"></i>
+            <input type="text" class="apex-form-control" placeholder="Search customers by name, email...">
+          </div>
+        </div>
+        <div class="admin-header-actions">
+          <button class="icon-btn position-relative"><i class="far fa-bell"></i></button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        
+        <div class="mb-4">
+          <h1 class="page-title">CUSTOMERS</h1>
+        </div>
+        
+        <div class="apex-card">
+          <!-- Filters -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <select class="form-select apex-form-control">
+                <option value="">Status: All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select class="form-select apex-form-control">
+                <option value="">Sort By: Newest</option>
+                <option value="orders-desc">Total Orders: High to Low</option>
+                <option value="spent-desc">Total Spent: High to Low</option>
+              </select>
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn-apex-outline px-3" title="Export CSV"><i class="fas fa-download me-2"></i> Export</button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="apex-table w-100">
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Email Address</th>
+                  <th>Total Orders</th>
+                  <th>Total Spent</th>
+                  <th>Join Date</th>
+                  <th>Status</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="customer-avatar">AM</div>
+                      <span class="text-white fw-bold">Alex Mitchell</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">alex.mitchell@example.com</td>
+                  <td>8</td>
+                  <td class="text-gold fw-bold">$1,245.90</td>
+                  <td>Jan 15, 2025</td>
+                  <td><span class="badge bg-success text-white">Active</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="Edit"><i class="fas fa-pen"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="customer-avatar" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">SW</div>
+                      <span class="text-white fw-bold">Sarah Williams</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">sarah.w@example.com</td>
+                  <td>3</td>
+                  <td class="text-gold fw-bold">$450.00</td>
+                  <td>Mar 02, 2025</td>
+                  <td><span class="badge bg-success text-white">Active</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="Edit"><i class="fas fa-pen"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="customer-avatar" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">MJ</div>
+                      <span class="text-white fw-bold">Marcus Johnson</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">marcus.j@example.com</td>
+                  <td>12</td>
+                  <td class="text-gold fw-bold">$3,150.75</td>
+                  <td>Nov 10, 2024</td>
+                  <td><span class="badge bg-success text-white">Active</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="Edit"><i class="fas fa-pen"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="customer-avatar" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">DC</div>
+                      <span class="text-white fw-bold">David Chen</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">d.chen@example.com</td>
+                  <td>1</td>
+                  <td class="text-gold fw-bold">$54.99</td>
+                  <td>Jun 20, 2026</td>
+                  <td><span class="badge bg-success text-white">Active</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="Edit"><i class="fas fa-pen"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="customer-avatar" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color);">ER</div>
+                      <span class="text-white fw-bold">Elena Rossi</span>
+                    </div>
+                  </td>
+                  <td class="text-muted-apex">elena.r@example.com</td>
+                  <td>0</td>
+                  <td class="text-gold fw-bold">$0.00</td>
+                  <td>Jun 15, 2026</td>
+                  <td><span class="badge bg-secondary text-white">Inactive</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-sm text-muted-apex hover-gold" title="Edit"><i class="fas fa-pen"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <span class="text-muted-apex" style="font-size: 13px;">Showing 1 to 5 of 124 customers</span>
+            <nav>
+              <ul class="pagination pagination-sm m-0">
+                <li class="page-item disabled"><a class="page-link bg-secondary-apex border-apex text-muted" href="#">Prev</a></li>
+                <li class="page-item active"><a class="page-link bg-apex-gold border-gold text-darkest" href="#">1</a></li>
+                <li class="page-item"><a class="page-link bg-secondary-apex border-apex text-white" href="#">2</a></li>
+                <li class="page-item"><a class="page-link bg-secondary-apex border-apex text-white" href="#">3</a></li>
+                <li class="page-item"><a class="page-link bg-secondary-apex border-apex text-white" href="#">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+          
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .hover-gold:hover { color: var(--apex-gold) !important; }
+  </style>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
